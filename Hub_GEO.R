@@ -2,28 +2,19 @@ install.packages("devtools")
 library("devtools")
 library(plotly)
 library(maps)
-FACILITY_CHAIN <- read.csv("C:/Users/lobanion/Desktop/R Projects/Geocoder/FACILITY_CHAINSD1.CSV",header=TRUE)
+HUB <- read.csv("C:/Users/lobanion/Desktop/R Projects/Geocoder/pharmacy-details.CSV",header=TRUE)
 library(ggmap)
-
-FACILITY_CHAIN$Concate <- paste(FACILITY_CHAIN$ADDR1,FACILITY_CHAIN$ADDR2,FACILITY_CHAIN$CITY,FACILITY_CHAIN$STATE,FACILITY_CHAIN$ZIP)
-loc <- geocode(as.character(FACILITY_CHAIN$Concate))
-
-FACILITY_CHAIN$lon<-loc$lon
-FACILITY_CHAIN$lat<-loc$lat
-
 trace1 <- list(x=map("state")$x,
                y=map("state")$y)
-
-trace2 <- list(x= FACILITY_CHAIN$lon,
-               y=FACILITY_CHAIN$lat,
-               text=FACILITY_CHAIN$FACILITY_NAME,
+trace2 <- list(x= HUB$Longitude,
+               y=HUB$Latitude,
+               text=HUB$Pharmacy,
                type="scatter",
                mode="markers",
                marker=list(
                  "size"=10,
                  "opacity"=0.5)
 )
-
 
 library("devtools")
 install_github("ropensci/plotly")
@@ -41,8 +32,3 @@ filename <- response$filename
 
 browseURL(response$url)
 
-install.packages("xlsx")
-
-library(xlsx)
-
-write.xlsx(FACILITY_CHAIN,"C:/Users/lobanion/Desktop/R Projects/Geocoder/FACILITY_CHAIN.xlsx")
